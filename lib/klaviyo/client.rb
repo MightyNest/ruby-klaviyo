@@ -64,6 +64,7 @@ module Klaviyo
           :type => 'profile',
           :attributes => {
             "email" => base_attributes["email"],
+            "phone_number" => base_attributes["phone_number"],
             "first_name" => base_attributes["first_name"],
             "last_name" => base_attributes["last_name"],
             "location" => base_attributes["location"],

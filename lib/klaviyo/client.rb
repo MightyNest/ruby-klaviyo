@@ -100,7 +100,14 @@ module Klaviyo
             :profiles => {
               :data => [{
                 :type => 'profile',
-                :attributes => {"email" => email, "phone_number" => phone}
+                :attributes => {"email" => email, "phone_number" => phone},
+                :subscriptions => {
+                  :sms => {
+                    :marketing => {
+                      :consent => "SUBSCRIBED"
+                    }
+                  }
+                }
               }]
             }
           },
@@ -123,6 +130,7 @@ module Klaviyo
         end
       end
     end
+
 
     def add_to_list(email, list_id)
       payload = {

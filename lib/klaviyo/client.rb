@@ -64,6 +64,7 @@ module Klaviyo
           :type => 'profile',
           :attributes => {
             "email" => base_attributes["email"],
+            "phone_number" => base_attributes["phone_number"],
             "first_name" => base_attributes["first_name"],
             "last_name" => base_attributes["last_name"],
             "location" => base_attributes["location"],
@@ -90,6 +91,46 @@ module Klaviyo
         end
       end
     end
+
+    def add_to_sms_list(phone, email, list_id)
+      payload = {
+        :data => {
+          :type => 'profile-subscription-bulk-create-job',
+          :attributes => {
+            :profiles => {
+              :data => [{
+                :type => 'profile',
+                :attributes => {"email" => email, "phone_number" => phone},
+                :subscriptions => {
+                  :sms => {
+                    :marketing => {
+                      :consent => "SUBSCRIBED"
+                    }
+                  }
+                }
+              }]
+            }
+          },
+          :relationships => {
+            :list => {
+              :data => {
+                :type => 'list',
+                "id" => list_id
+              }
+            }
+          }
+        }
+      }
+
+      RestClient.post("#{@url}api/profile-subscription-bulk-create-jobs/", payload.to_json, {accept: :json, revision: '2024-02-15', content_type: :json, authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
+        if response.code == 202
+          return true
+        else
+          raise KlaviyoError.new(JSON.parse(response))
+        end
+      end
+    end
+
 
     def add_to_list(email, list_id)
       payload = {

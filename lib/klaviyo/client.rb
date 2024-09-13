@@ -43,9 +43,9 @@ module Klaviyo
 
       RestClient.post("#{@url}api/events", payload.to_json, {accept: :json, revision: '2024-02-15', content_type: :json, authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 202      
-          Rails.logger.error "Klaviyo API called: track api/events \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: track api/events \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 
@@ -76,18 +76,18 @@ module Klaviyo
       
       RestClient.post("#{@url}api/profile-import", payload.to_json, {accept: :json, revision: '2024-02-15', content_type: :json, authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 200 || response.code == 201
-          Rails.logger.error "Klaviyo API called: identify api/profile-import \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: identify api/profile-import \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 
     def lists
       RestClient.get("#{@url}api/lists", {accept: :json, revision: '2024-02-15', authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 200
-          Rails.logger.error "Klaviyo API called: api/lists \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: api/lists \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 
@@ -123,9 +123,9 @@ module Klaviyo
 
       RestClient.post("#{@url}api/profile-subscription-bulk-create-jobs/", payload.to_json, {accept: :json, revision: '2024-02-15', content_type: :json, authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 202
-          Rails.logger.error "Klaviyo API called: add to sms list api/profile-subscription-bulk-create-jobs/ \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: add to sms list api/profile-subscription-bulk-create-jobs/ \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 
@@ -155,18 +155,18 @@ module Klaviyo
 
       RestClient.post("#{@url}api/profile-subscription-bulk-create-jobs/", payload.to_json, {accept: :json, revision: '2024-02-15', content_type: :json, authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 202
-          Rails.logger.error "Klaviyo API called: add to email list api/profile-subscription-bulk-create-jobs/ \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: add to email list api/profile-subscription-bulk-create-jobs/ \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 
     def get_profile(id)
       RestClient.get("#{@url}api/profiles/#{id}", {accept: :json, revision: '2024-02-15', authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 200
-          Rails.logger.error "Klaviyo API called: get profile api/profiles/[id] \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: get profile api/profiles/[id] \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 
@@ -181,9 +181,9 @@ module Klaviyo
       
       RestClient.patch("#{@url}api/profiles/#{id}", payload.to_json, {accept: :json, revision: '2024-02-15', content_type: :json, authorization: "Klaviyo-API-Key #{@api_key}"}) do |response, request, result, &block|
         unless response.code == 200
-          Rails.logger.error "Klaviyo API called: update profile api/profiles/[id] \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{JSON.parse(response)}"
+          Rails.logger.error "Klaviyo API called: update profile api/profiles/[id] \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
         end
-        return JSON.parse(response)
+        return response
       end
     end
 

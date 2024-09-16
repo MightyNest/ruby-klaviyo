@@ -78,13 +78,13 @@ module Klaviyo
         if response.code == 409 && response.body.include?("duplicate_profile") # profile already exists with same phone number
           Rails.logger.error "Klaviyo API called: identify api/profile-import \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
           base_attributes.delete("phone_number")
-          custom_properties.merge {"duplicate_phone_number" => true}
-          return identify(base_attributes, custom_properties)
+          custom_properties["duplicate_phone_number"] = true
+          identify(base_attributes, custom_properties)
         elsif response.code == 400 && response.body.include?("phone number provided either does not exist or is ineligible to receive SMS") # phone number is invalid
           Rails.logger.error "Klaviyo API called: identify api/profile-import \nData: #{payload.inspect}\nStatus code: #{response.code}\nMessage: #{response}"
           base_attributes.delete("phone_number")
-          custom_properties.merge {"invalid_phone_number" => true}
-          return identify(base_attributes, custom_properties)
+          custom_properties["invalid_phone_number"] = true
+          identify(base_attributes, custom_properties)
         elsif response.code == 200 || response.code == 201
           return response
         else
